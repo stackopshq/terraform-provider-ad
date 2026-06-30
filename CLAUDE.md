@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Terraform provider for Windows Active Directory. It manages AD objects (users, groups, OUs, computers, GPOs, group policy links and GPO security settings) by running PowerShell commands on a Windows Server over WinRM. The provider does **not** speak LDAP — every operation is ultimately a PowerShell `*-AD*` cmdlet executed remotely (or locally when Terraform itself runs on the Windows host).
+Terraform provider for Windows Active Directory. It manages AD objects (users, groups, OUs, computers, GPOs, group policy links, GPO security settings and GPO registry values) by running PowerShell commands on a Windows Server over WinRM. The provider does **not** speak LDAP — every operation is ultimately a PowerShell `*-AD*` cmdlet executed remotely (or locally when Terraform itself runs on the Windows host).
 
 This is a Terraform Plugin SDK v2 provider (not the newer Plugin Framework), still labeled a HashiCorp tech preview.
 
