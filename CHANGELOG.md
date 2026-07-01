@@ -1,3 +1,9 @@
+## Unreleased
+
+FEATURES:
+* **Resource**: `ad_gpo_registry_value`: Manage a single registry-based policy setting (Administrative Template) inside a GPO.
+* **Resource**: `ad_delegation`: Manage a single access control entry (ACE) on a directory object, delegating rights over an object (typically an OU) to a security principal.
+
 ## 0.5.0 (March 28, 2024)
 
 * dependencies: update go to `1.21` [GH-187]
