@@ -8,4 +8,4 @@ description = "Third-party test fixtures and a documented placeholder"
 # not ours, never a credential of this project.
 paths = ['''^vendor/cloud\.google\.com/go/storage/storage\.replay$''']
 # The literal "Password" placeholder of examples/resources/ad_user/resource.tf.
-regexes = ['''^Password$''']
+regexes = ['''^"?Password"?$''']
