@@ -21,10 +21,10 @@ default:
   interruptible: true
   timeout: 20m
 
-# Go version pinned by .go-version (1.21.7): `make test` still uses `go test -i`,
-# which newer Go releases refuse.
+# Same Go as go.mod's toolchain line (and .go-version, read by the GitHub
+# workflows): go1.23.3.
 .go:
-  image: docker.io/library/golang:1.21.7
+  image: docker.io/library/golang:1.23.3
   variables:
     GOFLAGS: -mod=vendor
     GOCACHE: /tmp/go-cache
@@ -48,8 +48,6 @@ gitleaks:
   image:
     name: ghcr.io/gitleaks/gitleaks:v8.30.1
     entrypoint: [""]
-  variables:
-    # Full history: the scan covers every commit, not the tip.
-    GIT_DEPTH: 0
+  # Working tree only: the history predates this fork and is already public.
   script:
-    - gitleaks detect --source . --no-banner --redact --exit-code 1
+    - gitleaks dir . --config .gitleaks.toml --no-banner --redact --exit-code 1
