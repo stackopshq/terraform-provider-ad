@@ -1,0 +1,55 @@
+# Merge request checks on GitLab, where the code now lives (moved from Gitea on
+# 2026-11-10). GitHub stays a public mirror pushed from here, and publishing
+# (releases, registries) stays on GitHub Actions there: this pipeline only
+# checks, and never publishes.
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    # No branch pipeline on top of an MR pipeline for the same commit.
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+stages:
+  - verify
+  - security
+
+default:
+  tags: [linux]
+  interruptible: true
+  timeout: 20m
+
+# Go version pinned by .go-version (1.21.7): `make test` still uses `go test -i`,
+# which newer Go releases refuse.
+.go:
+  image: docker.io/library/golang:1.21.7
+  variables:
+    GOFLAGS: -mod=vendor
+    GOCACHE: /tmp/go-cache
+
+build:
+  stage: verify
+  extends: [.go]
+  script:
+    - go build ./...
+
+unit-tests:
+  stage: verify
+  extends: [.go]
+  script:
+    - go mod verify
+    - make test
+
+gitleaks:
+  stage: security
+  needs: []
+  image:
+    name: ghcr.io/gitleaks/gitleaks:v8.30.1
+    entrypoint: [""]
+  variables:
+    # Full history: the scan covers every commit, not the tip.
+    GIT_DEPTH: 0
+  script:
+    - gitleaks detect --source . --no-banner --redact --exit-code 1
