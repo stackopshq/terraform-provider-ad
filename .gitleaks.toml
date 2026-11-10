@@ -1,0 +1,11 @@
+# gitleaks configuration: the default rules, minus two documented false positives.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Third-party test fixtures and a documented placeholder"
+# Recorded HTTP replays of the vendored Google Cloud Storage client: test data,
+# not ours, never a credential of this project.
+paths = ['''^vendor/cloud\.google\.com/go/storage/storage\.replay$''']
+# The literal "Password" placeholder of examples/resources/ad_user/resource.tf.
+regexes = ['''^"?Password"?$''']
