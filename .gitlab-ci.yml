@@ -29,7 +29,7 @@ default:
 # Same Go as go.mod's toolchain line (and .go-version, read by the GitHub
 # workflows): go1.23.3.
 .go:
-  image: docker.io/library/golang:1.23.3
+  image: docker.io/library/golang:1.27.4
   variables:
     GOFLAGS: -mod=vendor
     GOCACHE: /tmp/go-cache
